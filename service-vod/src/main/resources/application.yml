@@ -1,0 +1,50 @@
+server:
+  port: 8006
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+  application:
+    name: service-vod
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        ephemeral: false
+    sentinel:
+      transport:
+        dashboard: localhost:8858
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOrigins: '*'
+            allowedMethods: '*'
+            maxAge: 180
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/point_supply_station_monitor?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*Mapper.xml # 存放sql语句的xml文件目录
+  global-config: # 此项是否配置根据实际项目来
+    db-config:
+      logic-delete-field: deleted # 全局逻辑删除的实体字段名（这里填表字段名好像也可以）
+      logic-delete-value: 1 # 逻辑已删除值（为1，表示已删除）
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为0, 表示未删除)
+
+aliyun:
+  sms:
+    accessKeyId: LTAI5tEWFgZtBcTrCQisP6kz
+    secret: GnhINnJU2eqR6jOIVy56B3v9rc0Neg
+    codeSMSTemplate: SMS_460815475
+    signName: 天然气点供站监控管理平台
+  oss:
+    file:
+      keyId: LTAI5t9iZe4hVXboJSYUwrgh
+      keySecret: 7X4j4WvQ4LKFI6TYqI6HrrLwjgMQwW

@@ -1,0 +1,31 @@
+server:
+  port: 8007
+
+spring:
+  application:
+    name: service-mqtt
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        ephemeral: false
+    sentinel:
+      transport:
+        dashboard: localhost:8858
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/point_supply_station_monitor?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
+
+mqtt:
+  host: tcp://127.0.0.1:1883
+  username: root
+  password: 123456
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1

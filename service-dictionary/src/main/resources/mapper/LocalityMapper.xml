@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiminzhong.dictionary.mapper.LocalityMapper">
+
+    <!-- 自定义返回数据类型模板 -->
+    <resultMap id="categoryMap" type="com.shiminzhong.dictionary.entity.LocalityParentVo">
+        <result property="value" column="parentCode" />
+        <result property="text" column="parentName" />
+        <collection property="children" ofType="com.shiminzhong.dictionary.entity.LocalityChildVo" javaType="java.util.List">
+            <result property="value" column="childrenCode" />
+            <result property="text" column="childrenName" />
+            <collection property="children" ofType="com.shiminzhong.dictionary.entity.LocalityAreaVo" javaType="java.util.List">
+                <result property="value" column="areaCode" />
+                <result property="text" column="areaName" />
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!--
+     查询所有分类的目录结构
+     父级分类 ==>> 子分类
+     -->
+    <select id="findCategoryList" resultMap="categoryMap">
+        select
+            x.code as parentCode,
+            x.name as parentName,
+            y.code as childrenCode,
+            y.name as childrenName,
+            z.code as areaCode,
+            z.name as areaName
+        from locality x
+            left join locality as y on y.parent_code = x.code
+            left join locality as z on z.parent_code = y.code
+        where x.parent_code = 0
+    </select>
+
+
+</mapper>
